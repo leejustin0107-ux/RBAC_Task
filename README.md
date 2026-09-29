@@ -18,8 +18,9 @@ A simple full-stack application implementing authentication, JWT, role-based acc
 - bcrypt
 - Zod
 
-### Database
+### Database / Container
 - PostgreSQL 16
+- Docker
 - Docker Compose
 
 ## Features
@@ -42,40 +43,58 @@ A simple full-stack application implementing authentication, JWT, role-based acc
 | Manager | Yes | No | Yes |
 | User | Yes | No | No |
 
-## Setup and Run Instructions
-
-### 1. Clone the repository
-
-```bash
-git clone https://github.com/leejustin0107-ux/RBAC_Task.git
-cd RBAC_FullStack_Task
-```
-
-### 2. Start PostgreSQL
+## Run with Docker
 
 Make sure Docker Desktop is running.
 
 From the project root:
 
 ```bash
-docker compose up -d
+docker compose up --build
 ```
 
-The PostgreSQL database runs on:
+This starts:
+
+- PostgreSQL on port `5433`
+- Backend API on port `5000`
+- Frontend on port `5173`
+
+Open:
 
 ```text
-localhost:5433
+http://localhost:5173
 ```
 
-### 3. Create the database schema
+To stop the containers:
 
-From the project root in PowerShell:
-
-```powershell
-Get-Content server/sql/schema.sql | docker exec -i rbac-postgres psql -U postgres -d rbac_app
+```bash
+docker compose down
 ```
 
-### 4. Setup the backend
+To reset the database:
+
+```bash
+docker compose down -v
+```
+
+## Manual Setup and Run Instructions
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/leejustin0107-ux/RBAC_Task.git
+cd RBAC_Task
+```
+
+### 2. Start PostgreSQL
+
+From the project root:
+
+```bash
+docker compose up -d db
+```
+
+### 3. Setup the backend
 
 ```bash
 cd server
@@ -90,6 +109,12 @@ DATABASE_URL=postgresql://postgres:postgres@localhost:5433/rbac_app
 JWT_SECRET=your_jwt_secret
 JWT_EXPIRES_IN=1h
 CLIENT_URL=http://localhost:5173
+```
+
+Create the database schema:
+
+```powershell
+Get-Content sql/schema.sql | docker exec -i rbac-postgres psql -U postgres -d rbac_app
 ```
 
 Seed the demo users:
@@ -110,7 +135,7 @@ Backend runs at:
 http://localhost:5000
 ```
 
-### 5. Setup the frontend
+### 4. Setup the frontend
 
 Open another terminal:
 
