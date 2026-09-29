@@ -47,7 +47,7 @@ A simple full-stack application implementing authentication, JWT, role-based acc
 ### 1. Clone the repository
 
 ```bash
-git clone YOUR_REPOSITORY_URL
+git clone https://github.com/leejustin0107-ux/RBAC_Task.git
 cd RBAC_FullStack_Task
 ```
 
